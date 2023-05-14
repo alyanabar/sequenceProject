@@ -1,0 +1,6 @@
+TA Corrections 
+In your operator<<, you correctly print the first element to os, but for the rest of the sequence it goes to cout
+You added setters for the node class, which is fine, the issue is you have them return the value of the next/prev node. Since next/prev are pointers they could be nullptr, so returning the value can cause a seg fault. Technically setters don't need to return anything.
+In erase, you're actually allocating more memory by using new with all the local pointer variables. 
+Also, erase won't delete the last node. When you check current->next != nullptr, for the last node that is true, so current doesn't get deleted.
+You have a memory leak in the destructor, the order you delete current and set it to nullptr is reversed. Otherwise it works!
